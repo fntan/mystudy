@@ -16,12 +16,12 @@ $('.container').scroll(function(){
 //原生js
 window.onscroll = function () {
     //滚动条y轴上的距离
-	 var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     //可视区域的高度
-     var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
     //可视化的高度与溢出的距离（总高度）
-	 var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
-         if(scrollTop + clientHeight == scrollHeight){
+    var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+    if(scrollTop + clientHeight == scrollHeight){
              alert('已滚动到底部!')
          }
      }
