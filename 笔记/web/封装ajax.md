@@ -1,27 +1,35 @@
 ```javascript
-window.ajax = async function (params, callback) {
-    let url = params.url;
-    let method = params.method;
-    let data = params.data;
-    let body = new FormData();
-    for (let key in data) {
-        if (data.hasOwnProperty(key)) {
-            body.append(key, data[key]);
+function ajax(options){
+    var xhr = null;
+    var params = formsParams(options.data);
+    //创建对象
+    if(window.XMLHttpRequest){
+        xhr = new XMLHttpRequest()
+    } else {
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // 连接
+    if(options.type == "GET"){
+        xhr.open(options.type,options.url + "?"+ params,options.async);
+        xhr.send(null)
+    } else if(options.type == "POST"){
+        xhr.open(options.type,options.url,options.async);
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        xhr.send(params);
+    }
+    xhr.onreadystatechange = function(){
+        if(xhr.readyState == 4 && xhr.status == 200){
+            options.success(xhr.responseText);
         }
     }
-    let xhr = new XMLHttpRequest();
-    xhr.timeout = 3000;
-    xhr.open(method, url, true);
-    xhr.addEventListener("readystatechange", evt => {
-        if (xhr.readyState === 4) {
-            if (xhr.status === 200) {
-                callback(xhr.response);
-            } else {
-                throw xhr.statusText;
-            }
+    function formsParams(data){
+        var arr = [];
+        for(var prop in data){
+            arr.push(prop + "=" + data[prop]);
         }
-    });
-    xhr.send(body);
-};
+        return arr.join("&");
+    }
+
+}
 ```
 
